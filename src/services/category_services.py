@@ -24,3 +24,11 @@ def list_all():
     response = []
     for category in categories: response.append(category.toDict())
     return jsonify(response)
+
+
+def find_category_type(category_name):
+    print(category_name)
+    categories = Category.query.filter_by(category_name=category_name)
+    response = []
+    for category in categories: response.append(category.toDict())
+    return jsonify(response)
