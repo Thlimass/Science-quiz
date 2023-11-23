@@ -12,6 +12,7 @@ def hello():
 
 # Applications Routes
 from .controllers import category_controller
+from .controllers import question_controller
 
 if __name__ == "__main__":
     app.run()
