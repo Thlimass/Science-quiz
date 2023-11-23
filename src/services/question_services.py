@@ -26,6 +26,12 @@ def create(category_name):
     return jsonify(response)
 
 
-def list_by_id():
-    question = Question.query.get
-    return jsonify(question)
+def delete_question_by_id(question_id):
+    question = Question.query.get(question_id)
+
+    if question:
+        db.session.delete(question)
+        db.session.commit()
+        return True  # Retorna True se a exclusão for bem-sucedida
+    else:
+        return False
