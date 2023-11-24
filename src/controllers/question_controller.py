@@ -1,7 +1,7 @@
 from flask import request, jsonify
 
 from ..app import app
-from ..services.question_services import create, delete_question_by_id, list_all
+from ..services.question_services import create, delete_question_by_id, get_questions_for_category
 
 
 @app.route("/question/<category_name>", methods=['POST', 'GET'])
@@ -9,7 +9,7 @@ def list_create_questions(category_name):
     if request.method == 'POST':
         return create(category_name)
     if request.method == 'GET':
-        return list_all(category_name)
+        return get_questions_for_category(category_name)
     else:
         return 'Method is Not Allowed'
 

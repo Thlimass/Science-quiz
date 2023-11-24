@@ -26,7 +26,7 @@ def create(category_name):
     return jsonify(response)
 
 
-def list_all(category_name):
+def get_questions_for_category(category_name):
     category = Category.query.filter_by(category_name=category_name).first()
     if category:
         questions = Question.query.filter_by(category_id=category.id).all()
