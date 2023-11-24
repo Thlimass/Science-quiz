@@ -1,4 +1,4 @@
-from flask import request, jsonify
+from flask import request, jsonify, current_app
 import uuid
 
 from .. import db
@@ -19,7 +19,7 @@ def create():
     return jsonify(response)
 
 
-def list_all():
+def list_all_categories():
     categories = Category.query.all()
     response = []
     for category in categories: response.append(category.toDict())
@@ -27,7 +27,6 @@ def list_all():
 
 
 def find_category_type(category_name):
-    print(category_name)
     categories = Category.query.filter_by(category_name=category_name)
     response = []
     for category in categories: response.append(category.toDict())
