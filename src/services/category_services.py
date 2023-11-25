@@ -31,3 +31,14 @@ def find_category_type(category_name):
     response = []
     for category in categories: response.append(category.toDict())
     return jsonify(response)
+
+
+def delete_category_by_id(category_id):
+    category = Category.query.get(category_id)
+
+    if category:
+        db.session.delete(category)
+        db.session.commit()
+        return True
+    else:
+        return False
