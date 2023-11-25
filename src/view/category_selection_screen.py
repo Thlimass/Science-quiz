@@ -61,5 +61,3 @@ def show_category_selection_screen():
         pygame.display.flip()
 
     pygame.quit()
-
-    # show_questions_by_category_screen()
