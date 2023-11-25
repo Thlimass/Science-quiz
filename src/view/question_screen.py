@@ -1,6 +1,8 @@
 import pygame
 import requests
 
+from src.view.the_end_screen import show_end_screen
+
 
 def show_questions_by_category_screen(category_name):
     pygame.init()
@@ -43,7 +45,7 @@ def show_questions_by_category_screen(category_name):
                                 answer_correct = True
                                 current_question_index += 1  # Avança para a próxima pergunta
 
-                                # Verifica se ainda há perguntas restantes
+                                # Verifica se todas as perguntas foram respondidas
                                 if current_question_index >= len(question_list):
                                     running = False  # Sai do loop ao final das perguntas
                             break
@@ -98,6 +100,11 @@ def show_questions_by_category_screen(category_name):
                     screen.blit(text_answer, (120, y_answer + 10))
 
                     y_answer += 70  # Incrementa a posição Y para a próxima resposta
+
+            else:
+                # Se todas as perguntas foram respondidas, exibe a tela de fim de jogo
+                show_end_screen()
+                running = False
 
             pygame.display.flip()
 
