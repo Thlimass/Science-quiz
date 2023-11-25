@@ -48,8 +48,30 @@ def show_questions_by_category_screen(category_name):
             if current_question_index < len(question_list):
                 current_question = question_list[current_question_index]
                 question_text = current_question['question_text']
-                text_question = font_question.render(question_text, True, color_text)
-                screen.blit(text_question, (screen.get_width() // 2 - text_question.get_width() // 2, 50))
+
+                max_width = screen.get_width() - 100  # Largura máxima da área de exibição
+
+                words = question_text.split()
+                lines = []
+                current_line = ''
+
+                for word in words:
+                    test_line = current_line + word + ' '
+                    test_width, _ = font_question.size(test_line)
+
+                    if test_width < max_width:
+                        current_line = test_line
+                    else:
+                        lines.append(current_line)
+                        current_line = word + ' '
+
+                lines.append(current_line)
+
+                y_position = 50
+                for line in lines:
+                    text_line = font_question.render(line, True, color_text)
+                    screen.blit(text_line, (screen.get_width() // 2 - text_line.get_width() // 2, y_position))
+                    y_position += font_question.get_height()  # Ajusta a posição vertical para a próxima linha
 
             # Exibição das respostas da pergunta atual
             answers = current_question['incorrect_answer'] + [current_question['correct_answer']]
