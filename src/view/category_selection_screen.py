@@ -11,9 +11,6 @@ def show_category_selection_screen():
     white = (255, 255, 255)
     black = (0, 0, 0)
 
-    # Lista de itens a serem exibidos
-    items = ["Item 1", "Item 2", "Item 3", "Item 4"]
-
     response = requests.get('http://127.0.0.1:5000/category')
     print(response.content)
     if response.status_code == 200:
@@ -47,7 +44,7 @@ def show_category_selection_screen():
 
             screen.blit(text, text_rect)
 
-            start_y += rect_height + vertical_spacing  # Aumenta a posição Y para o próximo item
+            start_y += rect_height + vertical_spacing
 
         pygame.display.flip()
 
