@@ -26,11 +26,14 @@ def show_category_selection_screen():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_pos = pygame.mouse.get_pos()
                 start_y = (screen.get_height() - (len(categories) * 40)) // 2
-                for category in categories:
-                    rect = pygame.Rect((screen.get_width() - 200) // 2, start_y, 200, 30)
-                    if rect.collidepoint(mouse_pos):
-                        show_questions_by_category_screen(category)  # Passa a categoria selecionada
-                        running = False  # Sai do loop ao chamar a próxima tela
+                category_height = 40  # Altura da categoria
+
+                clicked_index = (mouse_pos[1] - start_y) // category_height
+
+                if 0 <= clicked_index < len(categories):
+                    clicked_category = categories[clicked_index]
+                    show_questions_by_category_screen(clicked_category)
+                    running = False  # Sai do loop ao chamar a próxima tela
 
         screen.fill(white)
 
