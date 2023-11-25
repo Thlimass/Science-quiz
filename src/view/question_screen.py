@@ -1,8 +1,13 @@
 import pygame
 import requests
 
+
 def show_questions_by_category_screen(category_name):
     pygame.init()
+
+    error_sound = pygame.mixer.Sound('smw_lemmy_wendy_incorrect.wav')
+    correct_sound = pygame.mixer.Sound('smw_coin.wav')
+
     screen = pygame.display.set_mode((800, 600))
     pygame.display.set_caption('Exibição de Perguntas')
 
@@ -26,6 +31,7 @@ def show_questions_by_category_screen(category_name):
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     mouse_pos = pygame.mouse.get_pos()
                     y_answer = 200  # Posição inicial das respostas
+                    answer_correct = False
 
                     # Verifica se a opção clicada é a correta
                     for index, answer in enumerate(question_list[current_question_index]['answer_option']):
@@ -34,6 +40,7 @@ def show_questions_by_category_screen(category_name):
                         if rect.collidepoint(mouse_pos):
                             if answer == question_list[current_question_index]['correct_answer']:
                                 # Resposta correta
+                                answer_correct = True
                                 current_question_index += 1  # Avança para a próxima pergunta
 
                                 # Verifica se ainda há perguntas restantes
@@ -41,6 +48,12 @@ def show_questions_by_category_screen(category_name):
                                     running = False  # Sai do loop ao final das perguntas
                             break
                         y_answer += 70
+
+                    # Reproduz o som com base na resposta
+                    if answer_correct:
+                        correct_sound.play()
+                    else:
+                        error_sound.play()
 
             screen.fill((0, 0, 0))  # Limpa a tela
 
