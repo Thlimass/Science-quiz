@@ -1,6 +1,8 @@
 import pygame
 import requests
 
+from src.view.question_screen import show_questions_by_category_screen
+
 
 def show_category_selection_screen():
     pygame.init()
@@ -12,7 +14,6 @@ def show_category_selection_screen():
     black = (0, 0, 0)
 
     response = requests.get('http://127.0.0.1:5000/category')
-    print(response.content)
     if response.status_code == 200:
         categories_list = response.content
     categories = [item['category_name'] for item in eval(categories_list.decode())]
@@ -22,6 +23,14 @@ def show_category_selection_screen():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_pos = pygame.mouse.get_pos()
+                start_y = (screen.get_height() - (len(categories) * 40)) // 2
+                for category in categories:
+                    rect = pygame.Rect((screen.get_width() - 200) // 2, start_y, 200, 30)
+                    if rect.collidepoint(mouse_pos):
+                        show_questions_by_category_screen(category)  # Passa a categoria selecionada
+                        running = False  # Sai do loop ao chamar a próxima tela
 
         screen.fill(white)
 
@@ -49,3 +58,5 @@ def show_category_selection_screen():
         pygame.display.flip()
 
     pygame.quit()
+
+    # show_questions_by_category_screen()
