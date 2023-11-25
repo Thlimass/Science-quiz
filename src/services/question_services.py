@@ -16,7 +16,7 @@ def create(category_name):
             category_id=category.id,
             question_text=request_form['question_text'],
             correct_answer=request_form['correct_answer'],
-            incorrect_answer=request_form['incorrect_answer']
+            answer_option=request_form['answer_option']
         )
 
     db.session.add(question)

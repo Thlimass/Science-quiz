@@ -28,27 +28,27 @@ def show_questions_by_category_screen(category_name):
                     y_answer = 200  # Posição inicial das respostas
 
                     # Verifica se a opção clicada é a correta
-                    for index in range(len(question_list[current_question_index]['incorrect_answer']) + 1):
+                    for index, answer in enumerate(question_list[current_question_index]['answer_option']):
                         rect = pygame.Rect(100, y_answer, screen.get_width() - 200, 50)
 
                         if rect.collidepoint(mouse_pos):
-                            if index == len(question_list[current_question_index]['incorrect_answer']):
-                                # Última opção (resposta correta)
+                            if answer == question_list[current_question_index]['correct_answer']:
+                                # Resposta correta
                                 current_question_index += 1  # Avança para a próxima pergunta
 
                                 # Verifica se ainda há perguntas restantes
                                 if current_question_index >= len(question_list):
                                     running = False  # Sai do loop ao final das perguntas
                             break
-                        y_answer += 70  # Incrementa a posição Y para a próxima resposta
+                        y_answer += 70
 
             screen.fill((0, 0, 0))  # Limpa a tela
 
-            # Exibição da pergunta atual
             if current_question_index < len(question_list):
                 current_question = question_list[current_question_index]
                 question_text = current_question['question_text']
 
+                # Renderização da pergunta atual...
                 max_width = screen.get_width() - 100  # Largura máxima da área de exibição
 
                 words = question_text.split()
@@ -73,19 +73,19 @@ def show_questions_by_category_screen(category_name):
                     screen.blit(text_line, (screen.get_width() // 2 - text_line.get_width() // 2, y_position))
                     y_position += font_question.get_height()  # Ajusta a posição vertical para a próxima linha
 
-            # Exibição das respostas da pergunta atual
-            answers = current_question['incorrect_answer'] + [current_question['correct_answer']]
-            y_answer = 200  # Posição inicial das respostas
+                # Exibição das respostas da pergunta atual
+                answers = current_question['answer_option']  # Obtém as opções de resposta
+                y_answer = 200  # Posição inicial das respostas
 
-            for index, answer in enumerate(answers):
-                rect = pygame.Rect(100, y_answer, screen.get_width() - 200, 50)
-                pygame.draw.rect(screen, color_retangulo, rect)
+                for index, answer in enumerate(answers):
+                    rect = pygame.Rect(100, y_answer, screen.get_width() - 200, 50)
+                    pygame.draw.rect(screen, color_retangulo, rect)
 
-                text_answer = font_answer.render(f"{chr(65 + index)}. {answer}", True, color_text)
-                screen.blit(text_answer, (120, y_answer + 10))
+                    text_answer = font_answer.render(f"{chr(65 + index)}. {answer}", True, color_text)
+                    screen.blit(text_answer, (120, y_answer + 10))
 
-                y_answer += 70  # Incrementa a posição Y para a próxima resposta
+                    y_answer += 70  # Incrementa a posição Y para a próxima resposta
 
             pygame.display.flip()
 
-    pygame.quit()
+        pygame.quit()

@@ -9,7 +9,7 @@ class Question(db.Model):
     category_id = db.Column(ForeignKey(Category.id))
     question_text = db.Column(db.String(9999))
     correct_answer = db.Column(db.String(1000))
-    incorrect_answer = db.Column(ARRAY(String))
+    answer_option = db.Column(ARRAY(String))
     created_at = db.Column(db.DateTime(timezone=True), default=datetime.now)
     updated_at = db.Column(db.DateTime(timezone=True), default=datetime.now, onupdate=datetime.now)
 
