@@ -6,6 +6,7 @@ from src.view.question_screen import show_questions_by_category_screen
 
 def show_category_selection_screen():
     pygame.init()
+    transaction_sound = pygame.mixer.Sound('smw_pipe.wav')  # Carrega o som
     screen = pygame.display.set_mode((800, 600))
     pygame.display.set_caption('Exibindo Lista')
 
@@ -34,6 +35,7 @@ def show_category_selection_screen():
 
                 if 0 <= clicked_index < len(categories):
                     clicked_category = categories[clicked_index]
+                    transaction_sound.play()  # Toca o som ao selecionar uma categoria
                     show_questions_by_category_screen(clicked_category)
                     running = False  # Sai do loop ao chamar a próxima tela
 
