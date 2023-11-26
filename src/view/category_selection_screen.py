@@ -9,9 +9,11 @@ def show_category_selection_screen():
     screen = pygame.display.set_mode((800, 600))
     pygame.display.set_caption('Exibindo Lista')
 
-    font = pygame.font.Font(None, 24)
+    font = pygame.font.Font('Purpose.ttf', 50)  # Aumenta o tamanho da fonte
     white = (255, 255, 255)
     black = (0, 0, 0)
+    hover_color = (50, 205, 50)  # Alterada para verde
+    background_color = (173, 216, 230)  # Cor de fundo da tela
 
     response = requests.get('http://127.0.0.1:5000/category')
     if response.status_code == 200:
@@ -25,8 +27,8 @@ def show_category_selection_screen():
                 running = False
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_pos = pygame.mouse.get_pos()
-                start_y = (screen.get_height() - (len(categories) * 40)) // 2
-                category_height = 40  # Altura da categoria
+                start_y = (screen.get_height() - (len(categories) * 60)) // 2  # Altera o tamanho para 60 pixels
+                category_height = 60  # Altura da categoria aumentada
 
                 clicked_index = (mouse_pos[1] - start_y) // category_height
 
@@ -35,20 +37,24 @@ def show_category_selection_screen():
                     show_questions_by_category_screen(clicked_category)
                     running = False  # Sai do loop ao chamar a próxima tela
 
-        screen.fill(white)
+        screen.fill(background_color)  # Define o fundo com a nova cor
 
         # Define o tamanho e espaçamento dos retângulos
-        rect_width, rect_height = 200, 30
-        vertical_spacing = 10
+        rect_width, rect_height = 500, 60  # Aumenta o tamanho do retângulo
 
         # Calcula a posição inicial para centralizar na tela
-        total_height = len(categories) * (rect_height + vertical_spacing)
+        total_height = len(categories) * (rect_height + 10)  # Mantém o espaçamento vertical
         start_y = (screen.get_height() - total_height) // 2
 
         for category in categories:
             # Cria um retângulo para cada item
             rect = pygame.Rect((screen.get_width() - rect_width) // 2, start_y, rect_width, rect_height)
-            pygame.draw.rect(screen, black, rect)
+
+            # Verifica se o mouse está sobre o retângulo
+            if rect.collidepoint(pygame.mouse.get_pos()):
+                pygame.draw.rect(screen, hover_color, rect)  # Muda a cor do retângulo se o mouse estiver sobre ele
+            else:
+                pygame.draw.rect(screen, black, rect)  # Mantém a cor preta
 
             # Renderiza o texto do item
             text = font.render(category, True, white)
@@ -56,7 +62,7 @@ def show_category_selection_screen():
 
             screen.blit(text, text_rect)
 
-            start_y += rect_height + vertical_spacing
+            start_y += rect_height + 10  # Aumenta o espaçamento vertical
 
         pygame.display.flip()
 
